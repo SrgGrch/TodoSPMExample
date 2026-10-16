@@ -36,3 +36,5 @@ Upstream Kingfisher 8.x fails because of this
 `-Xfrontend -enable-cross-import-overlays`. SwiftPM rejects `unsafeFlags` in
 remote dependencies, and xtool ignores `swift package edit`, so Kingfisher is
 vendored as a local path package with this flag added to its `Package.swift`.
+
+I opened [PR](https://github.com/xtool-org/xtool/pull/361) that should resolve cross-import overlay feature 
