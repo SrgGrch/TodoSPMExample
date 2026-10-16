@@ -25,11 +25,11 @@ struct TodoListView: View {
             List {
                 Section {
                     HStack {
-                        TextField("Новая задача", text: $newTitle)
+                        TextField("New todo", text: $newTitle)
                             .focused($inputFocused)
                             .submitLabel(.done)
                             .onSubmit(addTodo)
-                        Button("Добавить", systemImage: "plus.circle.fill", action: addTodo)
+                        Button("Add", systemImage: "plus.circle.fill", action: addTodo)
                             .labelStyle(.iconOnly)
                             .buttonStyle(.borderless)
                             .disabled(newTitle.trimmingCharacters(in: .whitespaces).isEmpty)
@@ -47,7 +47,7 @@ struct TodoListView: View {
                     }
                 } footer: {
                     let left = store.todos.filter { !$0.isDone }.count
-                    Text("Осталось: \(left) из \(store.todos.count)")
+                    Text("\(left) of \(store.todos.count) left")
                 }
             }
             .overlay {
@@ -59,7 +59,7 @@ struct TodoListView: View {
             .navigationTitle("ToDo")
             .toolbar { toolbar }
             .confettiCannon(trigger: $confetti, num: 40)
-            .alert("Ошибка", isPresented: .constant(store.errorMessage != nil)) {
+            .alert("Error", isPresented: .constant(store.errorMessage != nil)) {
                 Button("OK") { store.errorMessage = nil }
             } message: {
                 Text(store.errorMessage ?? "")
@@ -71,7 +71,7 @@ struct TodoListView: View {
     private var toolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .keyboard) {
             Spacer()
-            Button("Скрыть клавиатуру", systemImage: "keyboard.chevron.compact.down") {
+            Button("Hide keyboard", systemImage: "keyboard.chevron.compact.down") {
                 inputFocused = false
             }
         }
@@ -79,19 +79,19 @@ struct TodoListView: View {
             if store.isLoading {
                 ProgressView()
             } else {
-                Button("Импорт", systemImage: "icloud.and.arrow.down") {
+                Button("Import", systemImage: "icloud.and.arrow.down") {
                     Task { await store.importSamples() }
                 }
             }
         }
         ToolbarItem(placement: .topBarTrailing) {
-            Menu("Настройки", systemImage: "line.3.horizontal.decrease.circle") {
-                Toggle("Скрыть выполненные", isOn: $hideCompleted)
-                Picker("Сортировка", selection: $sortOrder) {
+            Menu("Settings", systemImage: "line.3.horizontal.decrease.circle") {
+                Toggle("Hide completed", isOn: $hideCompleted)
+                Picker("Sort", selection: $sortOrder) {
                     ForEach(SortOrder.allCases) { Text($0.title).tag($0) }
                 }
                 Divider()
-                Button("Удалить выполненные", systemImage: "trash", role: .destructive) {
+                Button("Delete completed", systemImage: "trash", role: .destructive) {
                     store.clearCompleted()
                 }
             }
@@ -139,9 +139,9 @@ private struct EmptyStateView: View {
                 .scaledToFill()
                 .frame(width: 120, height: 120)
                 .clipShape(Circle())
-            Text("Задач пока нет")
+            Text("No todos yet")
                 .font(.headline)
-            Text("Добавьте первую или импортируйте примеры")
+            Text("Add your first one or import some samples")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }

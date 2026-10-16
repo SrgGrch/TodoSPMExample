@@ -15,9 +15,9 @@ enum SortOrder: String, CaseIterable, Identifiable, Defaults.Serializable {
 
     var title: String {
         switch self {
-        case .newestFirst: "Сначала новые"
-        case .oldestFirst: "Сначала старые"
-        case .alphabetical: "По алфавиту"
+        case .newestFirst: "Newest first"
+        case .oldestFirst: "Oldest first"
+        case .alphabetical: "Alphabetical"
         }
     }
 }
